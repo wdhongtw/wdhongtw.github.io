@@ -264,6 +264,157 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/windows-mount-user-folder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Weida Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wdhongtw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/10/windows-mount-user-folder/" itemprop="url">Windows 安裝 mount User 家目錄</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-06-10T14:44:28+08:00">
+                2017-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>安裝 Linux 環境時，我們常會把某個分割區掛載到 /home<br>目錄，以起到方便管理的作用。</p>
+<p>Windows 能不能把 D 槽掛到 C:\Users 目錄呢？</p>
+<p>答案是可以的，雖然步驟非常繁雜。</p>
+<p>以下是自己經過多次嘗試之後整理出來的流程，尚待翻譯。</p>
+<h1 id="Windows-Install-Note"><a href="#Windows-Install-Note" class="headerlink" title="Windows Install Note"></a>Windows Install Note</h1><h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>If you are creating installation media on usbstick, it’s highly recommend to<br>using <a href="https://rufus.akeo.ie/" target="_blank" rel="external">rufus</a>.<br>Remember to select the partition scheme that is consistent to the target<br>machine for your installation.</p>
+<h2 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h2><p>Partition disk(s) using <code>diskpart</code>.</p>
+<p>Make sure to create EFI(ESP) partition and MSR(Microsoft Reserved Partition).</p>
+<p>You can use <code>Ctrl + F10</code> to open command prompt during installation.</p>
+<ul>
+<li><code>convert gpt</code>: change disk into GPT disk.</li>
+<li><code>create partition efi size=250</code>: create EFI partition with size 250MB</li>
+<li><code>create partition msr size=128</code>: create MSR partition with size 128MB</li>
+</ul>
+<h2 id="Mount-Disk-to-User-Folder"><a href="#Mount-Disk-to-User-Folder" class="headerlink" title="Mount Disk to User Folder"></a>Mount Disk to <code>User</code> Folder</h2><p>After couple times of reboot, windows installation procedure will ask you to<br>use express setting or do some customization.</p>
+<p>Use <code>Ctrl + Shift + F3</code> to enter Audit Mode when the you reach Setting screen<br>after reboot.</p>
+<ul>
+<li><code>select volume &lt;volume number&gt;</code>: select the desired volume</li>
+<li><code>detail volume</code>: check the selected volume</li>
+<li><code>format fs=ntfs label=&quot;Home Dir&quot; quick</code></li>
+<li><code>assign letter=E</code></li>
+</ul>
+<p>exit diskpart</p>
+<ul>
+<li><code>C:</code>: cd to root of C drive</li>
+<li><code>xcopy Users E: /s /e /f /b /h /x</code></li>
+<li><code>rmdir /s Users</code></li>
+<li><code>mkdir /s Users</code></li>
+</ul>
+<p>Enter diskpart</p>
+<ul>
+<li><code>diskpart</code>: enter diskpart</li>
+<li><code>select volume &lt;volume number&gt;</code>: select the desired volume</li>
+<li><code>assign mount=C:\Users</code></li>
+<li><code>remove letter=E</code>: remove the letter assigned previously. (optional)</li>
+<li><code>exit</code>: leave diskpart</li>
+</ul>
+<p>Then you can using windows 10!!</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><ul>
+<li><a href="http://superuser.com/questions/53029/mount-second-drive-as-c-users-in-windows-7" target="_blank" rel="external">[superuser] mount second drive as c users in wondows 7</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/create-certificate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -559,7 +710,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -572,7 +723,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>
