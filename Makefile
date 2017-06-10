@@ -18,7 +18,7 @@ theme:
 clean:
 	rm -rf $(PUBLIC)
 
-deploy:	
+deploy:
 	git add source public
 	git commit -m "Update blog post(s)"
 	git push
