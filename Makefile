@@ -19,6 +19,7 @@ clean:
 	rm -rf $(PUBLIC)
 
 deploy:
+	hexo generate
 	git add source public
 	git commit -m "Update blog post(s)"
 	git push
