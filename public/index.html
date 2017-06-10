@@ -415,138 +415,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/create-certificate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Weida Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wdhongtw's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/10/create-certificate/" itemprop="url">製作 X.509 憑證</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-06-10T14:10:50+08:00">
-                2017-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>自己利用 OpenSSL 製作憑證的一點心得筆記。</p>
-<p>內容尚待翻譯。</p>
-<h1 id="Certificate"><a href="#Certificate" class="headerlink" title="Certificate"></a>Certificate</h1><h2 id="Make-the-certificate-using-by-http-smtp-imap-pop3"><a href="#Make-the-certificate-using-by-http-smtp-imap-pop3" class="headerlink" title="Make the certificate using by http, smtp, imap, pop3"></a>Make the certificate using by http, smtp, imap, pop3</h2><ul>
-<li>Renew every 90 days.</li>
-<li>Usin PEM for all files, not DER.</li>
-<li>All pem file should put in <code>/etc/ssl/</code> folder.<br>Like <code>/etc/ssh/web</code></li>
-</ul>
-<h2 id="Generate-Private-Key-done-for-once"><a href="#Generate-Private-Key-done-for-once" class="headerlink" title="Generate Private Key (done for once)"></a>Generate Private Key (done for once)</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl genrsa -out private.pem 2048</div></pre></td></tr></table></figure>
-<h2 id="Generate-certificate-request"><a href="#Generate-certificate-request" class="headerlink" title="Generate certificate request"></a>Generate certificate request</h2><p>Create <code>csr.config</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">[req]</div><div class="line">default_bits = 4096</div><div class="line">prompt = no</div><div class="line">default_md = sha256</div><div class="line">distinguished_name = dn</div><div class="line">req_extensions = req_ext</div><div class="line"></div><div class="line">[ dn ]</div><div class="line">C=TW</div><div class="line">ST=Taiwan</div><div class="line">L=Hsinchu</div><div class="line">O=Bitisle</div><div class="line">OU=Bitisle Admin</div><div class="line">emailAddress=wdhongtw@gmail.com</div><div class="line">CN = bitisle.net</div><div class="line"></div><div class="line">[ req_ext ]</div><div class="line">subjectAltName = @alt_names</div><div class="line"></div><div class="line">[ alt_names ]</div><div class="line">DNS.1 = bitisle.net</div><div class="line">DNS.2 = www.bitisle.net</div></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req -key private.pem -new -out request.pem -config csr.config</div></pre></td></tr></table></figure>
-<p>Use following command to check contents in request file.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req -<span class="keyword">in</span> request.pem -text -noout</div></pre></td></tr></table></figure>
-<h2 id="Sign-by-Let’s-Encrypt-via-SSL-For-Free"><a href="#Sign-by-Let’s-Encrypt-via-SSL-For-Free" class="headerlink" title="Sign by Let’s Encrypt via SSL For Free"></a>Sign by Let’s Encrypt via SSL For Free</h2><ul>
-<li><a href="https://letsencrypt.org/getting-started/" target="_blank" rel="external">Let’s Encrypt</a></li>
-<li><a href="https://www.sslforfree.com/" target="_blank" rel="external">SSLForFree</a></li>
-</ul>
-<p>Visite sslforfree.com, give them the request and get the certificate.</p>
-<p>Save the certificate as <code>certificate.pem</code></p>
-<p>To check the content in certificate, use:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl x509 -<span class="keyword">in</span> certificate.pem -text -noout</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/09/bash-variable/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -631,6 +499,138 @@
 <li><a href="http://stackoverflow.com/questions/12262696/using-unset-vs-setting-a-variable-to-empty" target="_blank" rel="external">http://stackoverflow.com/questions/12262696/using-unset-vs-setting-a-variable-to-empty</a></li>
 <li><a href="http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash" target="_blank" rel="external">http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash</a></li>
 </ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/create-certificate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Weida Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wdhongtw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/03/create-certificate/" itemprop="url">製作 X.509 憑證</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-03-03T14:10:50+08:00">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>自己利用 OpenSSL 製作憑證的一點心得筆記。</p>
+<p>內容尚待翻譯。</p>
+<h1 id="Certificate"><a href="#Certificate" class="headerlink" title="Certificate"></a>Certificate</h1><h2 id="Make-the-certificate-using-by-http-smtp-imap-pop3"><a href="#Make-the-certificate-using-by-http-smtp-imap-pop3" class="headerlink" title="Make the certificate using by http, smtp, imap, pop3"></a>Make the certificate using by http, smtp, imap, pop3</h2><ul>
+<li>Renew every 90 days.</li>
+<li>Usin PEM for all files, not DER.</li>
+<li>All pem file should put in <code>/etc/ssl/</code> folder.<br>Like <code>/etc/ssh/web</code></li>
+</ul>
+<h2 id="Generate-Private-Key-done-for-once"><a href="#Generate-Private-Key-done-for-once" class="headerlink" title="Generate Private Key (done for once)"></a>Generate Private Key (done for once)</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl genrsa -out private.pem 2048</div></pre></td></tr></table></figure>
+<h2 id="Generate-certificate-request"><a href="#Generate-certificate-request" class="headerlink" title="Generate certificate request"></a>Generate certificate request</h2><p>Create <code>csr.config</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">[req]</div><div class="line">default_bits = 4096</div><div class="line">prompt = no</div><div class="line">default_md = sha256</div><div class="line">distinguished_name = dn</div><div class="line">req_extensions = req_ext</div><div class="line"></div><div class="line">[ dn ]</div><div class="line">C=TW</div><div class="line">ST=Taiwan</div><div class="line">L=Hsinchu</div><div class="line">O=Bitisle</div><div class="line">OU=Bitisle Admin</div><div class="line">emailAddress=wdhongtw@gmail.com</div><div class="line">CN = bitisle.net</div><div class="line"></div><div class="line">[ req_ext ]</div><div class="line">subjectAltName = @alt_names</div><div class="line"></div><div class="line">[ alt_names ]</div><div class="line">DNS.1 = bitisle.net</div><div class="line">DNS.2 = www.bitisle.net</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req -key private.pem -new -out request.pem -config csr.config</div></pre></td></tr></table></figure>
+<p>Use following command to check contents in request file.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req -<span class="keyword">in</span> request.pem -text -noout</div></pre></td></tr></table></figure>
+<h2 id="Sign-by-Let’s-Encrypt-via-SSL-For-Free"><a href="#Sign-by-Let’s-Encrypt-via-SSL-For-Free" class="headerlink" title="Sign by Let’s Encrypt via SSL For Free"></a>Sign by Let’s Encrypt via SSL For Free</h2><ul>
+<li><a href="https://letsencrypt.org/getting-started/" target="_blank" rel="external">Let’s Encrypt</a></li>
+<li><a href="https://www.sslforfree.com/" target="_blank" rel="external">SSLForFree</a></li>
+</ul>
+<p>Visite sslforfree.com, give them the request and get the certificate.</p>
+<p>Save the certificate as <code>certificate.pem</code></p>
+<p>To check the content in certificate, use:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl x509 -<span class="keyword">in</span> certificate.pem -text -noout</div></pre></td></tr></table></figure>
 
           
         

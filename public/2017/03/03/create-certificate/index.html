@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Bash,Language,Note," />
+  <meta name="keywords" content="Server,Certificate,OpenSSL," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="Variables in Shell EnvironmentEnvironment Variables and Sell VariablesSet and Unset VariablesDeclare shell variable. 12345VAR=declare VAR=# not VAR or declare VARunset VAR Declare environment variable">
-<meta name="keywords" content="Bash,Language,Note">
+<meta name="description" content="自己利用 OpenSSL 製作憑證的一點心得筆記。 內容尚待翻譯。 CertificateMake the certificate using by http, smtp, imap, pop3 Renew every 90 days. Usin PEM for all files, not DER. All pem file should put in /etc/ssl/ folder.Like">
+<meta name="keywords" content="Server,Certificate,OpenSSL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Bash Variable Life Cycle">
-<meta property="og:url" content="http://yoursite.com/2017/06/09/bash-variable/index.html">
+<meta property="og:title" content="製作 X.509 憑證">
+<meta property="og:url" content="http://yoursite.com/2017/03/03/create-certificate/index.html">
 <meta property="og:site_name" content="wdhongtw&#39;s Blog">
-<meta property="og:description" content="Variables in Shell EnvironmentEnvironment Variables and Sell VariablesSet and Unset VariablesDeclare shell variable. 12345VAR=declare VAR=# not VAR or declare VARunset VAR Declare environment variable">
-<meta property="og:updated_time" content="2017-06-10T08:16:09.075Z">
+<meta property="og:description" content="自己利用 OpenSSL 製作憑證的一點心得筆記。 內容尚待翻譯。 CertificateMake the certificate using by http, smtp, imap, pop3 Renew every 90 days. Usin PEM for all files, not DER. All pem file should put in /etc/ssl/ folder.Like">
+<meta property="og:updated_time" content="2017-06-10T08:18:20.785Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bash Variable Life Cycle">
-<meta name="twitter:description" content="Variables in Shell EnvironmentEnvironment Variables and Sell VariablesSet and Unset VariablesDeclare shell variable. 12345VAR=declare VAR=# not VAR or declare VARunset VAR Declare environment variable">
+<meta name="twitter:title" content="製作 X.509 憑證">
+<meta name="twitter:description" content="自己利用 OpenSSL 製作憑證的一點心得筆記。 內容尚待翻譯。 CertificateMake the certificate using by http, smtp, imap, pop3 Renew every 90 days. Usin PEM for all files, not DER. All pem file should put in /etc/ssl/ folder.Like">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/09/bash-variable/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/03/create-certificate/"/>
 
 
 
 
 
-  <title>Bash Variable Life Cycle | wdhongtw's Blog</title>
+  <title>製作 X.509 憑證 | wdhongtw's Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/09/bash-variable/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/create-certificate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Weida Hong">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Bash Variable Life Cycle</h1>
+          <h1 class="post-title" itemprop="name headline">製作 X.509 憑證</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-06-09T21:55:12+08:00">
-                2017-06-09
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-03-03T14:10:50+08:00">
+                2017-03-03
               </time>
             
 
@@ -331,22 +331,27 @@
       
 
       
-        <h1 id="Variables-in-Shell-Environment"><a href="#Variables-in-Shell-Environment" class="headerlink" title="Variables in Shell Environment"></a>Variables in Shell Environment</h1><h2 id="Environment-Variables-and-Sell-Variables"><a href="#Environment-Variables-and-Sell-Variables" class="headerlink" title="Environment Variables and Sell Variables"></a>Environment Variables and Sell Variables</h2><h2 id="Set-and-Unset-Variables"><a href="#Set-and-Unset-Variables" class="headerlink" title="Set and Unset Variables"></a>Set and Unset Variables</h2><p>Declare shell variable.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">VAR=</div><div class="line"><span class="built_in">declare</span> VAR=</div><div class="line"></div><div class="line"><span class="comment"># not VAR or declare VAR</span></div><div class="line"><span class="built_in">unset</span> VAR</div></pre></td></tr></table></figure>
-<p>Declare environment variable.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> VAR=</div><div class="line"><span class="built_in">declare</span> -x VAR=</div><div class="line"></div><div class="line"><span class="built_in">unset</span> VAR</div></pre></td></tr></table></figure>
-<p>Export/unexport shell variable into/from environment variable.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># declare VAR=</span></div><div class="line"><span class="built_in">export</span> VAR</div><div class="line"></div><div class="line"><span class="built_in">export</span> -n VAR</div></pre></td></tr></table></figure>
-<h3 id="Three-States-Life-Cycle-of-Varaible"><a href="#Three-States-Life-Cycle-of-Varaible" class="headerlink" title="Three States (Life Cycle) of Varaible"></a>Three States (Life Cycle) of Varaible</h3><ul>
-<li><code>unset var</code>: The variable is not set yet, every variable begin at this state.</li>
-<li><code>shell var</code>: The variable is set but will not be exported to subsequent<br>commands. Only accessible within this shell.</li>
-<li><code>environment var</code>: The variable is set and will be exported to subsquent<br>commands.</li>
+        <p>自己利用 OpenSSL 製作憑證的一點心得筆記。</p>
+<p>內容尚待翻譯。</p>
+<h1 id="Certificate"><a href="#Certificate" class="headerlink" title="Certificate"></a>Certificate</h1><h2 id="Make-the-certificate-using-by-http-smtp-imap-pop3"><a href="#Make-the-certificate-using-by-http-smtp-imap-pop3" class="headerlink" title="Make the certificate using by http, smtp, imap, pop3"></a>Make the certificate using by http, smtp, imap, pop3</h2><ul>
+<li>Renew every 90 days.</li>
+<li>Usin PEM for all files, not DER.</li>
+<li>All pem file should put in <code>/etc/ssl/</code> folder.<br>Like <code>/etc/ssh/web</code></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">   -----------------------------------------------------</div><div class="line">   |                export VAR=                        |</div><div class="line">   |                                                   v</div><div class="line">---------    VAR=      ---------   export VAR     ---------------</div><div class="line">| unset | -----------&gt; | shell | ---------------&gt; | environment |</div><div class="line">|  var  | &lt;----------- |  var  | &lt;--------------- |     var     |</div><div class="line">---------   unset VAR  ---------   export -n VAR  ---------------</div><div class="line">   ^                                                   |</div><div class="line">   |                 unset VAR                         |</div><div class="line">   -----------------------------------------------------</div></pre></td></tr></table></figure>
-<h2 id="Empty-Variables-vs-Unset-Variables"><a href="#Empty-Variables-vs-Unset-Variables" class="headerlink" title="Empty Variables vs Unset Variables"></a>Empty Variables vs Unset Variables</h2><h3 id="Detect-Unset-Variable"><a href="#Detect-Unset-Variable" class="headerlink" title="Detect Unset Variable"></a>Detect Unset Variable</h3><h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><ul>
-<li><a href="http://stackoverflow.com/questions/12262696/using-unset-vs-setting-a-variable-to-empty" target="_blank" rel="external">http://stackoverflow.com/questions/12262696/using-unset-vs-setting-a-variable-to-empty</a></li>
-<li><a href="http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash" target="_blank" rel="external">http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash</a></li>
+<h2 id="Generate-Private-Key-done-for-once"><a href="#Generate-Private-Key-done-for-once" class="headerlink" title="Generate Private Key (done for once)"></a>Generate Private Key (done for once)</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl genrsa -out private.pem 2048</div></pre></td></tr></table></figure>
+<h2 id="Generate-certificate-request"><a href="#Generate-certificate-request" class="headerlink" title="Generate certificate request"></a>Generate certificate request</h2><p>Create <code>csr.config</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">[req]</div><div class="line">default_bits = 4096</div><div class="line">prompt = no</div><div class="line">default_md = sha256</div><div class="line">distinguished_name = dn</div><div class="line">req_extensions = req_ext</div><div class="line"></div><div class="line">[ dn ]</div><div class="line">C=TW</div><div class="line">ST=Taiwan</div><div class="line">L=Hsinchu</div><div class="line">O=Bitisle</div><div class="line">OU=Bitisle Admin</div><div class="line">emailAddress=wdhongtw@gmail.com</div><div class="line">CN = bitisle.net</div><div class="line"></div><div class="line">[ req_ext ]</div><div class="line">subjectAltName = @alt_names</div><div class="line"></div><div class="line">[ alt_names ]</div><div class="line">DNS.1 = bitisle.net</div><div class="line">DNS.2 = www.bitisle.net</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req -key private.pem -new -out request.pem -config csr.config</div></pre></td></tr></table></figure>
+<p>Use following command to check contents in request file.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req -<span class="keyword">in</span> request.pem -text -noout</div></pre></td></tr></table></figure>
+<h2 id="Sign-by-Let’s-Encrypt-via-SSL-For-Free"><a href="#Sign-by-Let’s-Encrypt-via-SSL-For-Free" class="headerlink" title="Sign by Let’s Encrypt via SSL For Free"></a>Sign by Let’s Encrypt via SSL For Free</h2><ul>
+<li><a href="https://letsencrypt.org/getting-started/" target="_blank" rel="external">Let’s Encrypt</a></li>
+<li><a href="https://www.sslforfree.com/" target="_blank" rel="external">SSLForFree</a></li>
 </ul>
+<p>Visite sslforfree.com, give them the request and get the certificate.</p>
+<p>Save the certificate as <code>certificate.pem</code></p>
+<p>To check the content in certificate, use:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl x509 -<span class="keyword">in</span> certificate.pem -text -noout</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -376,11 +381,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Bash/" rel="tag"># Bash</a>
+            <a href="/tags/Server/" rel="tag"># Server</a>
           
-            <a href="/tags/Language/" rel="tag"># Language</a>
+            <a href="/tags/Certificate/" rel="tag"># Certificate</a>
           
-            <a href="/tags/Note/" rel="tag"># Note</a>
+            <a href="/tags/OpenSSL/" rel="tag"># OpenSSL</a>
           
         </div>
       
@@ -393,8 +398,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/03/create-certificate/" rel="next" title="製作 X.509 憑證">
-                <i class="fa fa-chevron-left"></i> 製作 X.509 憑證
+              <a href="/2015/05/08/fire-extinguisher/" rel="next" title="滅火器初體驗">
+                <i class="fa fa-chevron-left"></i> 滅火器初體驗
               </a>
             
           </div>
@@ -403,8 +408,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/10/windows-mount-user-folder/" rel="prev" title="Windows 安裝 mount User 家目錄">
-                Windows 安裝 mount User 家目錄 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/09/bash-variable/" rel="prev" title="Bash Variable Life Cycle">
+                Bash Variable Life Cycle <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -525,7 +530,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Variables-in-Shell-Environment"><span class="nav-number">1.</span> <span class="nav-text">Variables in Shell Environment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment-Variables-and-Sell-Variables"><span class="nav-number">1.1.</span> <span class="nav-text">Environment Variables and Sell Variables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set-and-Unset-Variables"><span class="nav-number">1.2.</span> <span class="nav-text">Set and Unset Variables</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Three-States-Life-Cycle-of-Varaible"><span class="nav-number">1.2.1.</span> <span class="nav-text">Three States (Life Cycle) of Varaible</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Empty-Variables-vs-Unset-Variables"><span class="nav-number">1.3.</span> <span class="nav-text">Empty Variables vs Unset Variables</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Detect-Unset-Variable"><span class="nav-number">1.3.1.</span> <span class="nav-text">Detect Unset Variable</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Links"><span class="nav-number">1.4.</span> <span class="nav-text">Links</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Certificate"><span class="nav-number">1.</span> <span class="nav-text">Certificate</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Make-the-certificate-using-by-http-smtp-imap-pop3"><span class="nav-number">1.1.</span> <span class="nav-text">Make the certificate using by http, smtp, imap, pop3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Generate-Private-Key-done-for-once"><span class="nav-number">1.2.</span> <span class="nav-text">Generate Private Key (done for once)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Generate-certificate-request"><span class="nav-number">1.3.</span> <span class="nav-text">Generate certificate request</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sign-by-Let’s-Encrypt-via-SSL-For-Free"><span class="nav-number">1.4.</span> <span class="nav-text">Sign by Let’s Encrypt via SSL For Free</span></a></li></ol></li></ol></div>
             
 
           </div>
