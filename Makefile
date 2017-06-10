@@ -1,9 +1,9 @@
 THEME = hexo-theme-next
 PUBLIC = public
 
-.PHONY: all theme init update
+.PHONY: all theme init update clean
 
-all: init update theme clean
+all: init update theme
 
 init:
 	npm install
