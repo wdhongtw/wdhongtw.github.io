@@ -1,8 +1,9 @@
-THEME=hexo-theme-next
+THEME = hexo-theme-next
+PUBLIC = public
 
 .PHONY: all theme init update
 
-all: init update theme
+all: init update theme clean
 
 init:
 	npm install
@@ -13,3 +14,6 @@ update:
 
 theme:
 	cp theme_config.yml themes/$(THEME)/_config.yml
+
+clean:
+	rm -rf $(PUBLIC)
