@@ -1,7 +1,7 @@
 THEME = hexo-theme-next
 PUBLIC = public
 
-.PHONY: all theme init update clean
+.PHONY: all theme init update clean deploy
 
 all: init update theme
 
@@ -17,3 +17,9 @@ theme:
 
 clean:
 	rm -rf $(PUBLIC)
+
+deploy:	
+	git add source public
+	git commit -m "Update blog post(s)"
+	git push
+	git subtree push --prefix public origin master
